@@ -11,17 +11,23 @@ namespace StackNDictionary
         static void Main(string[] args)
         {
             Dictionary<string, string> FoodSearch = new Dictionary<string, string>();
+            Stack<string> leftoverStack = new Stack<string>();
 
             FoodSearch.Add("Cheese", "12/05/26");
             FoodSearch.Add("Chocolate", "08/11/26");
+
+            leftoverStack.Push("Chili");
+            leftoverStack.Push("Pasta");
+            leftoverStack.Push("Stir-fry");
 
             while (true)
             {
                 Console.WriteLine("Welcome to Gorlock.AI");
                 Console.WriteLine("1. Food expiry search");
                 Console.WriteLine("2. Add food");
-                Console.WriteLine("2. Update food");
-                Console.WriteLine("3. Leftover");
+                Console.WriteLine("3. Update food");
+                Console.WriteLine("4. Leftover");
+                Console.WriteLine("5. Add leftover");
 
                 Console.Write("Input: ");
                 int userinput = Convert.ToInt32(Console.ReadLine());
@@ -38,9 +44,11 @@ namespace StackNDictionary
                         UpdateFood(FoodSearch);
                         break;
                     case 4:
-                        leftover();
+                        leftover(leftoverStack);
                         break;
-                 
+                    case 5:
+                        addleftover(leftoverStack);
+                        break;                
                 }
 
             }
@@ -120,21 +128,25 @@ namespace StackNDictionary
             while (true)
             {
                 string input = Console.ReadLine();
-                if ((input.Length == 1 || input.Length == 2) && int.TryParse(input, out int value))
+
+                int value;
+
+                bool success = int.TryParse(input, out value);
+
+                if (success)
                 {
                     if (value >= 1 && value <= maxValue)
                     {
-                        // If it's a single digit, return it with a 0 in front
                         if (input.Length == 1)
                         {
-                            return $"0{input}";
+                            return "0" + input;
                         }
 
                         return input;
                     }
                 }
 
-                Console.Write($"Invalid! Enter exactly 2 digits (1 to {maxValue}): ");
+                Console.Write($"Invalid! Enter a number from 1 to {maxValue}: ");
             }
         }
         static void UpdateFood(Dictionary<string, string> FoodSearch)
@@ -169,20 +181,74 @@ namespace StackNDictionary
                 Console.WriteLine($"{name} is not in the fridge. Use Add option first.");
             }
         }
-        static void leftover()
+        static void leftover(Stack<string> leftoverStack)
         {
-            Stack<string> leftoverStack = new Stack<string>();
+            Console.Clear();
 
-            leftoverStack.Push("Monday's Chili");
-            leftoverStack.Push("Tuesday's Pasta");
-            leftoverStack.Push("Wednesday's Stir-fry");
+            if (leftoverStack.Count == 0)
+            {
+                Console.WriteLine("You have no leftovers, press any key to continue");
+                Console.Read();
+                Console.Clear();
+            }
+            while (leftoverStack.Count > 0)
+            {
 
-            Console.WriteLine($"Open fridge. The container on top is: {leftoverStack.Peek()}");
+             Console.WriteLine($"The container on top is: {leftoverStack.Peek()}");
 
-            string dinner = leftoverStack.Pop();
-            Console.WriteLine($"You took and ate: {dinner}");
+                Console.WriteLine("Get top container? (Y to remove/N to go back");
+                string userinput = Console.ReadLine();
+                if (userinput == "Y" || userinput == "y")
+                {
+                    string dinner = leftoverStack.Pop();
+                    Console.WriteLine($"You took and ate: {dinner}");
 
-            Console.WriteLine($"The next container down is now: {leftoverStack.Peek()}");
+                    Console.WriteLine($"The next container down is now: {leftoverStack.Peek()}");
+                    Console.WriteLine("Press any key to continue");
+                    Console.ReadKey();
+                    Console.Clear();
+                    continue;
+                }
+                else if (userinput == "N" || userinput == "n")
+                {
+                    Console.Clear();
+                    return;
+                }
+                else
+                {
+                   Console.WriteLine("Please input valid output, press any key to continue");
+                    Console.ReadKey();
+                   Console.Clear();
+                   continue;
+                }
+            }
+        }
+        static void addleftover(Stack<string> leftoverStack)
+        {
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("--- Add Leftover ---");
+                Console.Write("Enter the name of the leftover container: ");
+                string newLeftover = Console.ReadLine();
+
+                if (newLeftover != "")
+                {
+                    leftoverStack.Push(newLeftover);
+                    Console.WriteLine($"\n'{newLeftover}' has been placed on top of the stack!");
+                }
+                else
+                {
+                    Console.WriteLine("\nNo leftover added, press any key to try again and please insert leftover");
+                    Console.Clear();
+                    continue;
+                }
+
+                Console.WriteLine("Press any key to complete");
+                Console.ReadKey();
+                Console.Clear();
+                return;
+            }            
         }
     }
 }
