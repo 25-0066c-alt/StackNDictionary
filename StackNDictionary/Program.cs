@@ -29,7 +29,7 @@ namespace StackNDictionary
                 switch (userinput)
                 {
                     case 1:
-                        Expiry(FoodSearch);
+                        Expiry(FoodSearch); //simon
                         break;
                     case 2:
                         AddFood(FoodSearch);
