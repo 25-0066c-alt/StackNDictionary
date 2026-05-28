@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,7 +35,7 @@ namespace StackNDictionary
                 switch (userinput)
                 {
                     case 1:
-                        Expiry(FoodSearch); //simon
+                        Expiry(FoodSearch); 
                         break;
                     case 2:
                         AddFood(FoodSearch);
@@ -48,7 +48,12 @@ namespace StackNDictionary
                         break;
                     case 5:
                         addleftover(leftoverStack);
-                        break;                
+                        break;
+                    default:
+                        Console.WriteLine("Invalid option. Choose a number between 1 and 5, press any key to continue");
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
                 }
 
             }
@@ -109,15 +114,18 @@ namespace StackNDictionary
 
             string date = $"{month}/{day}/{year}";
 
-
             if (FoodSearch.ContainsKey(name))
             {
                 Console.WriteLine($"{name} already exists! Use the Update option instead.");
             }
-            else
+            else if (FoodSearch.ContainsKey(name))
             {
                 FoodSearch.Add(name, date);
                 Console.WriteLine($"{name} successfully added!");
+            }
+            else
+            {
+                Console.WriteLine("Please try again!");
             }
 
             Console.ReadKey();
@@ -194,9 +202,10 @@ namespace StackNDictionary
             while (leftoverStack.Count > 0)
             {
 
-             Console.WriteLine($"The container on top is: {leftoverStack.Peek()}");
+                Console.WriteLine($"The container on top is: {leftoverStack.Peek()}");
+                Console.WriteLine($"You have {leftoverStack.Count} leftovers");
 
-                Console.WriteLine("Get top container? (Y to remove/N to go back");
+                Console.WriteLine("Get top container? (Y to remove/N to go back)");
                 string userinput = Console.ReadLine();
                 if (userinput == "Y" || userinput == "y")
                 {
@@ -216,10 +225,10 @@ namespace StackNDictionary
                 }
                 else
                 {
-                   Console.WriteLine("Please input valid output, press any key to continue");
+                    Console.WriteLine("Please input valid output, press any key to continue");
                     Console.ReadKey();
-                   Console.Clear();
-                   continue;
+                    Console.Clear();
+                    continue;
                 }
             }
         }
@@ -248,7 +257,7 @@ namespace StackNDictionary
                 Console.ReadKey();
                 Console.Clear();
                 return;
-            }            
+            }
         }
     }
 }
