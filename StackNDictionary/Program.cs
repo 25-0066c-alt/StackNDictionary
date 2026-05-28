@@ -118,14 +118,10 @@ namespace StackNDictionary
             {
                 Console.WriteLine($"{name} already exists! Use the Update option instead.");
             }
-            else if (FoodSearch.ContainsKey(name))
+            else
             {
                 FoodSearch.Add(name, date);
                 Console.WriteLine($"{name} successfully added!");
-            }
-            else
-            {
-                Console.WriteLine("Please try again!");
             }
 
             Console.ReadKey();
